@@ -1,0 +1,51 @@
+# Copy this file to terraform.tfvars and adjust for your environment.
+#   cp terraform.tfvars.example terraform.tfvars
+#
+# terraform.tfvars is gitignored so environment-specific values are never
+# committed. All variables below are optional and shown with safe defaults.
+
+# ---------------------------------------------------------------------------
+# Region
+# ---------------------------------------------------------------------------
+aws_region = "us-east-1"
+
+# ---------------------------------------------------------------------------
+# Multi-account deployment (choose ONE approach, or leave both commented to
+# deploy into the account of your current/default credentials).
+# ---------------------------------------------------------------------------
+#
+# Approach A - named profile per account (define profiles in ~/.aws/config):
+# aws_profile = "account-b-admin"
+#
+# Approach B - assume a role in the target account (cross-account):
+# assume_role_arn         = "arn:aws:iam::222222222222:role/OrgDeployRole"
+# assume_role_external_id = "optional-external-id"
+#
+# Same resource names are safe across different accounts (IAM is account-scoped).
+# To deploy to multiple regions within ONE account, run a separate Terraform
+# workspace per region:
+#   terraform workspace new us-west-2
+#   terraform apply -var="aws_region=us-west-2"
+
+# ---------------------------------------------------------------------------
+# Replication configuration (secure defaults shown)
+# ---------------------------------------------------------------------------
+# replication_instance_type = "t3.small"
+# staging_disk_type         = "GP3"
+# bandwidth_throttling      = 0
+# create_public_ip          = false          # keep replication traffic private
+# data_plane_routing        = "PRIVATE_IP"   # do not route over the public internet
+
+# ---------------------------------------------------------------------------
+# KMS (leave empty to use the AWS managed key)
+# ---------------------------------------------------------------------------
+# kms_key_arn = "arn:aws:kms:us-east-1:123456789012:key/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+
+# ---------------------------------------------------------------------------
+# Tagging
+# ---------------------------------------------------------------------------
+# default_tags = {
+#   ManagedBy   = "terraform"
+#   Project     = "mgn-initializer"
+#   Environment = "migration"
+# }
